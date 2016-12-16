@@ -1,0 +1,205 @@
+﻿
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Suyanomi</title>
+        <base href="/">
+
+        <style>
+            html,body {
+                min-height: 700px;
+                height: 100%;
+            }
+            html {
+                background: url('https://dn-coding-net-production-static.qbox.me/fb78318a-d895-418f-ad80-172bbafc35e0.jpg') no-repeat center;
+                background-size: cover;
+            }
+            body {
+                color: #fff;
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                min-height: 600px;
+                font-family: "PingFang SC", "Helvetica Neue", "Hiragino Sans GB", "Segoe UI", "Microsoft YaHei", "微软雅黑", sans-serif;
+                -webkit-font-smoothing: antialiased;
+                font-size: 15px;
+                font-weight: 300;
+                background-color: rgba(0, 0, 0, 0.6);
+            }
+            a {
+                text-decoration: none;
+            }
+
+            header {
+                max-width: 1024px;
+                width: 100%;
+                margin: auto;
+                height: 4rem;
+                line-height: 4rem;
+                box-sizing: border-box;
+            }
+            header .logo {
+                background: url(https://dn-coding-net-production-pp.qbox.me/fec9c01f-8851-4dd3-a912-df41132bb98b.png) no-repeat;
+                background-size: 257px;
+                width: 257px;
+                height: 24px;
+                display: inline-block;
+                margin-right: 10px;
+                vertical-align: middle;
+            }
+            header #avatar-img {
+                display: none;
+                width: 2.5rem;
+                border-radius: 1.25rem;
+                vertical-align: middle;
+                float: right;
+                margin-top: 0.75rem;
+            }
+            header .not-login {
+                display: none;
+                float: right;
+                height: 1.8rem;
+                line-height: 1.8rem;
+                margin-top: 1.1rem;
+                border-radius: 1rem;
+                border: 1px solid #323A45;
+                padding: 0 1.7rem 0 1.7rem;
+            }
+            header #login {
+                color: #323A45;
+                background: #fff;
+                margin-left: 0.2rem;
+            }
+            header #register {
+                color: #fff;
+                background: #2da12d;
+            }
+
+            #container {
+                max-width: 1024px;
+                width: 100%;
+                margin: 9rem auto 0 auto;
+                box-sizing: border-box;
+            }
+
+            #notice-container {
+                max-width: 765px;
+                width: 100%;
+                margin: auto;
+                text-align: center;
+            }
+            #notice-container h2 {
+                font-size: 2rem;
+                line-height: 2rem;
+                font-weight: 300;
+                text-align: center;
+                margin-bottom: 53px;
+            }
+            #notice-container p {
+                line-height: 1.5rem;
+                text-align: left;
+                font-weight: 200;
+            }
+            #notice-container p.right {
+                text-align: right;
+            }
+
+            .mail {
+                color: #2da12d;
+            }
+            .mail:hover {
+                color: #1c651c;
+            }
+
+            .button {
+                font-size: 1.3rem;
+                display: inline-block;
+                height: 3.2rem;
+                line-height: 3.2rem;
+                color: #fff;
+                background-color: #2da12d;
+                border-radius: 0.4rem;
+                padding: 0 2rem 0 2rem;
+                margin: 2rem 0 2rem 0;
+            }
+
+            @media (max-width: 800px) {
+                body {
+                    font-size: 18px;
+                }
+                header .not-login {
+                    font-size: 15px;
+                }
+
+                header,
+                #container {
+                    padding-left: 0.8rem;
+                    padding-right: 0.8rem;
+                }
+                #container {
+                    margin-top: 4rem;
+                }
+            }
+            @media (max-width: 500px) {
+                header .logo {
+                    width: 110px;
+                }
+            }
+            @media (max-width: 350px) {
+                header .logo {
+                    background-size: 200px;
+                    width: 90px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <section id="contain
+        <header>
+            <i class="logo"></i>
+
+            <a href="/user">
+                <img id="avatar-img">
+            </a>
+        </header>
+            <div id="notice-container" style="padding-top:100px">
+                <h2>什么也没有</h2>
+            </div>
+        </section>
+
+        <script>
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/current_user');
+            xhr.send();
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState !== XMLHttpRequest.DONE) {
+                    return;
+                }
+
+                if (xhr.status !== 200) {
+                    showNotLoginButtons();
+                    return;
+                }
+
+                var json = JSON.parse(xhr.responseText);
+
+                if (!json || json.code !== 0) {
+                    showNotLoginButtons();
+                    return;
+                }
+
+                $img = document.querySelector('#avatar-img');
+                $img.style.display = 'inline-block';
+                $img.setAttribute('src', json.data.avatar);
+            };
+
+            function showNotLoginButtons() {
+                var buttons = document.querySelectorAll('.not-login');
+                for (var i = 0; i < buttons.length; i++) {
+                    buttons[i].style.display = 'inline-block';
+                }
+            }
+        </script>
+    </body>
+</html>
